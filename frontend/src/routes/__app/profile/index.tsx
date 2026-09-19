@@ -1,7 +1,8 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute } from "@tanstack/react-router"
 
-export const Route = createFileRoute('/__app/profile/')({
+export const Route = createFileRoute("/__app/profile/")({
   component: Index,
+  loader: () => ({ crumb: "Profile" }),
 })
 
 function Index() {

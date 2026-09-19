@@ -11,8 +11,14 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as _appRouteImport } from './routes/__app'
+import { Route as _appCategoriesRouteImport } from './routes/__app/categories'
+import { Route as _appExpensesRouteImport } from './routes/__app/expenses'
+import { Route as _appCategoriesIndexRouteImport } from './routes/__app/categories/index'
+import { Route as _appExpensesIndexRouteImport } from './routes/__app/expenses/index'
 import { Route as _appHomeIndexRouteImport } from './routes/__app/home/index'
 import { Route as _appProfileIndexRouteImport } from './routes/__app/profile/index'
+import { Route as _appCategoriesCategoryIdIndexRouteImport } from './routes/__app/categories/$categoryId/index'
+import { Route as _appExpensesExpenseIdIndexRouteImport } from './routes/__app/expenses/$expenseId/index'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -22,6 +28,26 @@ const IndexRoute = IndexRouteImport.update({
 const _appRoute = _appRouteImport.update({
   id: '/__app',
   getParentRoute: () => rootRouteImport,
+} as any)
+const _appCategoriesRoute = _appCategoriesRouteImport.update({
+  id: '/categories',
+  path: '/categories',
+  getParentRoute: () => _appRoute,
+} as any)
+const _appExpensesRoute = _appExpensesRouteImport.update({
+  id: '/expenses',
+  path: '/expenses',
+  getParentRoute: () => _appRoute,
+} as any)
+const _appCategoriesIndexRoute = _appCategoriesIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => _appCategoriesRoute,
+} as any)
+const _appExpensesIndexRoute = _appExpensesIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => _appExpensesRoute,
 } as any)
 const _appHomeIndexRoute = _appHomeIndexRouteImport.update({
   id: '/home/',
@@ -33,30 +59,85 @@ const _appProfileIndexRoute = _appProfileIndexRouteImport.update({
   path: '/profile/',
   getParentRoute: () => _appRoute,
 } as any)
+const _appCategoriesCategoryIdIndexRoute =
+  _appCategoriesCategoryIdIndexRouteImport.update({
+    id: '/$categoryId/',
+    path: '/$categoryId/',
+    getParentRoute: () => _appCategoriesRoute,
+  } as any)
+const _appExpensesExpenseIdIndexRoute =
+  _appExpensesExpenseIdIndexRouteImport.update({
+    id: '/$expenseId/',
+    path: '/$expenseId/',
+    getParentRoute: () => _appExpensesRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/categories': typeof _appCategoriesRouteWithChildren
+  '/expenses': typeof _appExpensesRouteWithChildren
+  '/categories/': typeof _appCategoriesIndexRoute
+  '/expenses/': typeof _appExpensesIndexRoute
   '/home/': typeof _appHomeIndexRoute
   '/profile/': typeof _appProfileIndexRoute
+  '/categories/$categoryId/': typeof _appCategoriesCategoryIdIndexRoute
+  '/expenses/$expenseId/': typeof _appExpensesExpenseIdIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/categories': typeof _appCategoriesIndexRoute
+  '/expenses': typeof _appExpensesIndexRoute
   '/home': typeof _appHomeIndexRoute
   '/profile': typeof _appProfileIndexRoute
+  '/categories/$categoryId': typeof _appCategoriesCategoryIdIndexRoute
+  '/expenses/$expenseId': typeof _appExpensesExpenseIdIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/__app': typeof _appRouteWithChildren
+  '/__app/categories': typeof _appCategoriesRouteWithChildren
+  '/__app/expenses': typeof _appExpensesRouteWithChildren
+  '/__app/categories/': typeof _appCategoriesIndexRoute
+  '/__app/expenses/': typeof _appExpensesIndexRoute
   '/__app/home/': typeof _appHomeIndexRoute
   '/__app/profile/': typeof _appProfileIndexRoute
+  '/__app/categories/$categoryId/': typeof _appCategoriesCategoryIdIndexRoute
+  '/__app/expenses/$expenseId/': typeof _appExpensesExpenseIdIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/home/' | '/profile/'
+  fullPaths:
+    | '/'
+    | '/categories'
+    | '/expenses'
+    | '/categories/'
+    | '/expenses/'
+    | '/home/'
+    | '/profile/'
+    | '/categories/$categoryId/'
+    | '/expenses/$expenseId/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/home' | '/profile'
-  id: '__root__' | '/' | '/__app' | '/__app/home/' | '/__app/profile/'
+  to:
+    | '/'
+    | '/categories'
+    | '/expenses'
+    | '/home'
+    | '/profile'
+    | '/categories/$categoryId'
+    | '/expenses/$expenseId'
+  id:
+    | '__root__'
+    | '/'
+    | '/__app'
+    | '/__app/categories'
+    | '/__app/expenses'
+    | '/__app/categories/'
+    | '/__app/expenses/'
+    | '/__app/home/'
+    | '/__app/profile/'
+    | '/__app/categories/$categoryId/'
+    | '/__app/expenses/$expenseId/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -80,6 +161,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof _appRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/__app/categories': {
+      id: '/__app/categories'
+      path: '/categories'
+      fullPath: '/categories'
+      preLoaderRoute: typeof _appCategoriesRouteImport
+      parentRoute: typeof _appRoute
+    }
+    '/__app/expenses': {
+      id: '/__app/expenses'
+      path: '/expenses'
+      fullPath: '/expenses'
+      preLoaderRoute: typeof _appExpensesRouteImport
+      parentRoute: typeof _appRoute
+    }
+    '/__app/categories/': {
+      id: '/__app/categories/'
+      path: '/'
+      fullPath: '/categories/'
+      preLoaderRoute: typeof _appCategoriesIndexRouteImport
+      parentRoute: typeof _appCategoriesRoute
+    }
+    '/__app/expenses/': {
+      id: '/__app/expenses/'
+      path: '/'
+      fullPath: '/expenses/'
+      preLoaderRoute: typeof _appExpensesIndexRouteImport
+      parentRoute: typeof _appExpensesRoute
+    }
     '/__app/home/': {
       id: '/__app/home/'
       path: '/home'
@@ -94,15 +203,61 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof _appProfileIndexRouteImport
       parentRoute: typeof _appRoute
     }
+    '/__app/categories/$categoryId/': {
+      id: '/__app/categories/$categoryId/'
+      path: '/$categoryId'
+      fullPath: '/categories/$categoryId/'
+      preLoaderRoute: typeof _appCategoriesCategoryIdIndexRouteImport
+      parentRoute: typeof _appCategoriesRoute
+    }
+    '/__app/expenses/$expenseId/': {
+      id: '/__app/expenses/$expenseId/'
+      path: '/$expenseId'
+      fullPath: '/expenses/$expenseId/'
+      preLoaderRoute: typeof _appExpensesExpenseIdIndexRouteImport
+      parentRoute: typeof _appExpensesRoute
+    }
   }
 }
 
+interface _appCategoriesRouteChildren {
+  _appCategoriesIndexRoute: typeof _appCategoriesIndexRoute
+  _appCategoriesCategoryIdIndexRoute: typeof _appCategoriesCategoryIdIndexRoute
+}
+
+const _appCategoriesRouteChildren: _appCategoriesRouteChildren = {
+  _appCategoriesIndexRoute: _appCategoriesIndexRoute,
+  _appCategoriesCategoryIdIndexRoute: _appCategoriesCategoryIdIndexRoute,
+}
+
+const _appCategoriesRouteWithChildren = _appCategoriesRoute._addFileChildren(
+  _appCategoriesRouteChildren,
+)
+
+interface _appExpensesRouteChildren {
+  _appExpensesIndexRoute: typeof _appExpensesIndexRoute
+  _appExpensesExpenseIdIndexRoute: typeof _appExpensesExpenseIdIndexRoute
+}
+
+const _appExpensesRouteChildren: _appExpensesRouteChildren = {
+  _appExpensesIndexRoute: _appExpensesIndexRoute,
+  _appExpensesExpenseIdIndexRoute: _appExpensesExpenseIdIndexRoute,
+}
+
+const _appExpensesRouteWithChildren = _appExpensesRoute._addFileChildren(
+  _appExpensesRouteChildren,
+)
+
 interface _appRouteChildren {
+  _appCategoriesRoute: typeof _appCategoriesRouteWithChildren
+  _appExpensesRoute: typeof _appExpensesRouteWithChildren
   _appHomeIndexRoute: typeof _appHomeIndexRoute
   _appProfileIndexRoute: typeof _appProfileIndexRoute
 }
 
 const _appRouteChildren: _appRouteChildren = {
+  _appCategoriesRoute: _appCategoriesRouteWithChildren,
+  _appExpensesRoute: _appExpensesRouteWithChildren,
   _appHomeIndexRoute: _appHomeIndexRoute,
   _appProfileIndexRoute: _appProfileIndexRoute,
 }
