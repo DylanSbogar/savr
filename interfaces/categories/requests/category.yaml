@@ -1,0 +1,6 @@
+get:
+  summary: Get a category
+  operationId: getCategory
+  responses:
+    "200":
+      description: Success

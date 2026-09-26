@@ -1,0 +1,27 @@
+openapi: 3.1.1
+info:
+  title: SAVR API
+  description: A clean, modular API layout using external file references.
+  version: 1.0.0
+
+servers:
+  - url: api/v1
+
+paths:
+  # Categories
+  /categories:
+    $ref: "./categories/requests/categories.yaml"
+
+  # /categories/$categoryId:
+  #   $ref: "./categories/requests/category.yaml"
+
+  # Expenses
+  # /expenses:
+  #   $ref: "./expenses/requests/expenses.yaml"
+
+  # /expenses/$expenseId:
+  #   $ref: "./expenses/requests/expense.yaml"
+
+  # Profile
+  # /profile:
+  #   $ref: "./profile/requests/profile.yaml"
