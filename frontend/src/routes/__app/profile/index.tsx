@@ -1,3 +1,4 @@
+import { Header } from "@/components/layout"
 import { createFileRoute } from "@tanstack/react-router"
 
 export const Route = createFileRoute("/__app/profile/")({
@@ -7,7 +8,8 @@ export const Route = createFileRoute("/__app/profile/")({
 
 function Index() {
   return (
-    <div className="p-2">
+    <div>
+      <Header />
       <h3>Profile page</h3>
     </div>
   )

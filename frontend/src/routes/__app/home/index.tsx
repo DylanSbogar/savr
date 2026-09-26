@@ -1,3 +1,4 @@
+import { Header } from "@/components/layout"
 import { createFileRoute } from "@tanstack/react-router"
 
 export const Route = createFileRoute("/__app/home/")({
@@ -9,7 +10,8 @@ export const Route = createFileRoute("/__app/home/")({
 
 function Index() {
   return (
-    <div className="p-2">
+    <div>
+      <Header />
       <h3>Dashboard</h3>
     </div>
   )

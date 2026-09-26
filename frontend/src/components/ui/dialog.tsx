@@ -7,6 +7,9 @@ import { cn } from "cn"
 import { Button } from "@/components/ui/button"
 import { XIcon } from "lucide-react"
 
+import { type LucideIcon } from "lucide-react"
+import { cva, type VariantProps } from "class-variance-authority"
+
 function Dialog({ ...props }: DialogPrimitive.Root.Props) {
   return <DialogPrimitive.Root data-slot="dialog" {...props} />
 }
@@ -20,7 +23,13 @@ function DialogPortal({ ...props }: DialogPrimitive.Portal.Props) {
 }
 
 function DialogClose({ ...props }: DialogPrimitive.Close.Props) {
-  return <DialogPrimitive.Close data-slot="dialog-close" {...props} />
+  return (
+    <DialogPrimitive.Close
+      data-slot="dialog-close"
+      render={props.render ?? <Button variant="secondary">Close</Button>}
+      {...props}
+    />
+  )
 }
 
 function DialogOverlay({
@@ -39,21 +48,43 @@ function DialogOverlay({
   )
 }
 
+const dialogContentVariants = cva("", {
+  variants: {
+    size: {
+      sm: "max-w-sm!",
+      md: "max-w-md!",
+      lg: "max-w-lg!",
+      xl: "max-w-xl!",
+      "2xl": "max-w-2xl!",
+      "3xl": "max-w-3xl!",
+      "4xl": "max-w-4xl!",
+      "5xl": "max-w-5xl!",
+      "6xl": "max-w-6xl!",
+    },
+  },
+  defaultVariants: {
+    size: "md",
+  },
+})
+
 function DialogContent({
   className,
   children,
   showCloseButton = true,
+  size,
   ...props
-}: DialogPrimitive.Popup.Props & {
-  showCloseButton?: boolean
-}) {
+}: DialogPrimitive.Popup.Props &
+  VariantProps<typeof dialogContentVariants> & {
+    showCloseButton?: boolean
+  }) {
   return (
     <DialogPortal>
       <DialogOverlay />
       <DialogPrimitive.Popup
         data-slot="dialog-content"
         className={cn(
-          "fixed top-1/2 left-1/2 z-50 grid w-full max-w-[calc(100%-2rem)] -translate-x-1/2 -translate-y-1/2 gap-4 rounded-xl bg-popover p-4 text-xs/relaxed text-popover-foreground ring-1 ring-foreground/10 duration-100 outline-none sm:max-w-sm data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95",
+          "fixed top-1/2 left-1/2 z-50 grid w-full max-w-[calc(100%-2rem)] -translate-x-1/2 -translate-y-1/2 rounded-xl bg-popover p-1 text-xs/relaxed text-popover-foreground ring-1 ring-foreground/10 duration-100 outline-none data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95",
+          dialogContentVariants({ size }),
           className
         )}
         {...props}
@@ -70,8 +101,7 @@ function DialogContent({
               />
             }
           >
-            <XIcon
-            />
+            <XIcon />
             <span className="sr-only">Close</span>
           </DialogPrimitive.Close>
         )}
@@ -80,11 +110,40 @@ function DialogContent({
   )
 }
 
-function DialogHeader({ className, ...props }: React.ComponentProps<"div">) {
+function DialogHeader({
+  icon: Icon,
+  className,
+  children,
+  ...props
+}: React.ComponentProps<"div"> & { icon?: LucideIcon }) {
   return (
     <div
       data-slot="dialog-header"
-      className={cn("flex flex-col gap-1", className)}
+      className={cn("flex flex-row items-center gap-3 px-4 py-2", className)}
+      {...props}
+    >
+      {Icon && (
+        <div
+          data-slot="dialog-icon"
+          className="flex size-10 shrink-0 items-center justify-center rounded-lg border border-dashed border-border text-muted-foreground [&_svg]:size-4"
+        >
+          <Icon />
+        </div>
+      )}
+
+      <div className="flex flex-col">{children}</div>
+    </div>
+  )
+}
+
+function DialogBody({ className, ...props }: React.ComponentProps<"div">) {
+  return (
+    <div
+      data-slot="dialog-body"
+      className={cn(
+        "flex flex-col gap-2 rounded-md bg-accent px-4 py-2",
+        className
+      )}
       {...props}
     />
   )
@@ -93,26 +152,34 @@ function DialogHeader({ className, ...props }: React.ComponentProps<"div">) {
 function DialogFooter({
   className,
   showCloseButton = false,
+  closeLabel = "Close",
   children,
   ...props
 }: React.ComponentProps<"div"> & {
   showCloseButton?: boolean
+  closeLabel?: string
 }) {
   return (
     <div
       data-slot="dialog-footer"
       className={cn(
-        "flex flex-col-reverse gap-2 sm:flex-row sm:justify-end",
+        "flex flex-col-reverse gap-2 sm:flex-row sm:items-center sm:justify-start",
         className
       )}
       {...props}
     >
-      {children}
       {showCloseButton && (
-        <DialogPrimitive.Close render={<Button variant="outline" />}>
-          Close
+        <DialogPrimitive.Close
+          render={(props) => (
+            <Button variant="secondary" {...props}>
+              {closeLabel}
+            </Button>
+          )}
+        >
+          {closeLabel}
         </DialogPrimitive.Close>
       )}
+      {children}
     </div>
   )
 }
@@ -150,6 +217,7 @@ export {
   DialogDescription,
   DialogFooter,
   DialogHeader,
+  DialogBody,
   DialogOverlay,
   DialogPortal,
   DialogTitle,

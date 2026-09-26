@@ -1,46 +1,37 @@
 import { DitherAvatar } from "@/components/dither-kit"
 import {
   Sidebar as BaseSidebar,
-  Button,
   SidebarContent,
   SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarHeader,
   SidebarMenu,
+  SidebarMenuAction,
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui"
+import { CreateCategoryDialog } from "@/features/categories"
+import { CreateExpenseDialog } from "@/features/expenses"
+import { SearchCommand } from "@/features/search"
+import { SettingsDialog } from "@/features/settings"
+import { useIsMobile } from "@/hooks"
 import { useMatchRoute, useNavigate } from "@tanstack/react-router"
 import {
-  CirclePlus,
-  DollarSignIcon,
+  DollarSign,
   LayoutDashboard,
-  ListIcon,
-  MailIcon,
+  LifeBuoy,
+  List,
+  Plus,
+  Search,
+  Settings,
 } from "lucide-react"
-
-const options = [
-  {
-    title: "Dashboard",
-    url: "/home",
-    icon: LayoutDashboard,
-  },
-  {
-    title: "Categories",
-    url: "/categories",
-    icon: ListIcon,
-  },
-  {
-    title: "Expenses",
-    url: "/expenses",
-    icon: DollarSignIcon,
-  },
-]
 
 export const Sidebar = () => {
   const navigate = useNavigate()
   const matchRoute = useMatchRoute()
+  const isMobile = useIsMobile()
+
   return (
     <BaseSidebar variant="inset" collapsible="icon">
       <SidebarHeader>
@@ -52,7 +43,7 @@ export const Sidebar = () => {
               onClick={() => navigate({ to: "/home" })}
             >
               <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
-                <DollarSignIcon className="size-4" />
+                <DollarSign className="size-4" />
               </div>
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-medium">SAVR</span>
@@ -65,48 +56,81 @@ export const Sidebar = () => {
         <SidebarGroup>
           <SidebarGroupContent className="flex flex-col gap-2">
             <SidebarMenu>
-              {/* Quick create/search button goes here */}
-              <SidebarMenuItem className="flex items-center gap-2">
-                <SidebarMenuButton
-                  tooltip="Quick Create"
-                  className="min-w-8 bg-primary text-primary-foreground duration-200 ease-linear hover:bg-primary/90 hover:text-primary-foreground active:bg-primary/90 active:text-primary-foreground"
-                >
-                  <CirclePlus />
-                  <span>Quick Create</span>
-                </SidebarMenuButton>
-                <Button
-                  size="icon"
-                  className="size-8 group-data-[collapsible=icon]:opacity-0"
-                  variant="outline"
-                >
-                  <MailIcon />
-                  <span className="sr-only">Inbox</span>
-                </Button>
-              </SidebarMenuItem>
+              <SearchCommand />
             </SidebarMenu>
             <SidebarMenu>
-              {options.map((opt) => (
-                <SidebarMenuItem key={opt.title}>
-                  <SidebarMenuButton
-                    tooltip={opt.title}
-                    onClick={() => navigate({ to: opt.url })}
-                    isActive={!!matchRoute({ to: opt.url, fuzzy: true })}
-                  >
-                    {opt.icon && <opt.icon />}
-                    <span>{opt.title}</span>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  tooltip="Dashboard"
+                  onClick={() => navigate({ to: "/home" })}
+                  isActive={!!matchRoute({ to: "/home", fuzzy: true })}
+                >
+                  <LayoutDashboard />
+                  <span>Dashboard</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  tooltip="Categories"
+                  onClick={() => navigate({ to: "/categories" })}
+                  isActive={!!matchRoute({ to: "/categories", fuzzy: true })}
+                >
+                  <List />
+                  <span>Categories</span>
+                </SidebarMenuButton>
+                {!isMobile && (
+                  <CreateCategoryDialog>
+                    <SidebarMenuAction showOnHover>
+                      <Plus />
+                      <span className="sr-only">Create category</span>
+                    </SidebarMenuAction>
+                  </CreateCategoryDialog>
+                )}
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  tooltip="Expenses"
+                  onClick={() => navigate({ to: "/expenses" })}
+                  isActive={!!matchRoute({ to: "/expenses", fuzzy: true })}
+                >
+                  <DollarSign />
+                  <span>Expenses</span>
+                </SidebarMenuButton>
+                {!isMobile && (
+                  <CreateExpenseDialog>
+                    <SidebarMenuAction showOnHover>
+                      <Plus />
+                      <span className="sr-only">Create expense</span>
+                    </SidebarMenuAction>
+                  </CreateExpenseDialog>
+                )}
+              </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter>
         <SidebarMenu>
+          <SettingsDialog />
+          <SidebarMenuItem>
+            <SidebarMenuButton
+              tooltip="Support"
+              render={
+                <a
+                  href="https://github.com/DylanSbogar/savr/issues/new"
+                  target="_blank"
+                />
+              }
+            >
+              <LifeBuoy />
+              <span>Support</span>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
           <SidebarMenuItem>
             <SidebarMenuButton
               size="lg"
               className="rounded-none data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+              tooltip="dylansbogar"
               onClick={() => navigate({ to: "/profile" })}
             >
               <DitherAvatar name="dylansbogar" size={32} className="shrink-0" />

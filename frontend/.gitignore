@@ -12,6 +12,9 @@ dist
 dist-ssr
 *.local
 
+# Automatically generated tanstack clients
+src/api
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
