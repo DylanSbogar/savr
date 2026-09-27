@@ -1,5 +1,6 @@
 import { Header } from "@/components/layout"
 import { createFileRoute } from "@tanstack/react-router"
+import { useTitle } from "react-use"
 
 export const Route = createFileRoute("/__app/profile/")({
   component: Index,
@@ -7,6 +8,7 @@ export const Route = createFileRoute("/__app/profile/")({
 })
 
 function Index() {
+  useTitle("Profile | SAVR")
   return (
     <div>
       <Header />

@@ -1,22 +1,21 @@
+import { CompactButton } from "@/components/compact-button"
 import { Header } from "@/components/layout"
-import { Button } from "@/components/ui"
 import { CreateExpenseDialog } from "@/features/expenses"
 import { createFileRoute } from "@tanstack/react-router"
 import { Plus } from "lucide-react"
+import { useTitle } from "react-use"
 
 export const Route = createFileRoute("/__app/expenses/")({
   component: RouteComponent,
 })
 
 function RouteComponent() {
+  useTitle("Expenses | SAVR")
   return (
     <div>
       <Header>
         <CreateExpenseDialog>
-          <Button>
-            <Plus />
-            <span>New expense</span>
-          </Button>
+          <CompactButton icon={Plus} label="New expense" />
         </CreateExpenseDialog>
       </Header>
     </div>

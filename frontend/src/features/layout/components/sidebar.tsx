@@ -21,11 +21,10 @@ import {
   DollarSign,
   LayoutDashboard,
   LifeBuoy,
-  List,
   Plus,
-  Search,
-  Settings,
+  TextAlignStart,
 } from "lucide-react"
+import icon from "@/assets/icon-light.svg"
 
 export const Sidebar = () => {
   const navigate = useNavigate()
@@ -43,10 +42,10 @@ export const Sidebar = () => {
               onClick={() => navigate({ to: "/home" })}
             >
               <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
-                <DollarSign className="size-4" />
+                <img src={icon} className="size-4" alt="SAVR icon" />
               </div>
               <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-medium">SAVR</span>
+                <span className="truncate font-mono font-medium">SAVR</span>
               </div>
             </SidebarMenuButton>
           </SidebarMenuItem>
@@ -75,7 +74,7 @@ export const Sidebar = () => {
                   onClick={() => navigate({ to: "/categories" })}
                   isActive={!!matchRoute({ to: "/categories", fuzzy: true })}
                 >
-                  <List />
+                  <TextAlignStart />
                   <span>Categories</span>
                 </SidebarMenuButton>
                 {!isMobile && (

@@ -1,23 +1,24 @@
+import { useState } from "react"
 import {
   Button,
   Popover,
   PopoverContent,
   PopoverHeader,
   PopoverTrigger,
-} from "@/components/ui"
+} from "./ui"
 import { Trash2 } from "lucide-react"
-import { useState } from "react"
 
 interface Props {
-  id: string
+  label?: string
+  onDelete: () => void
   children: React.ReactElement
 }
 
-export const DeleteExpenseDialog = ({ id, children }: Props) => {
+export const DeletePopover = ({ label, onDelete, children }: Props) => {
   const [isOpen, setIsOpen] = useState<boolean>(false)
 
   const handleDelete = () => {
-    console.log(`Deleting expense with id ${id}...`)
+    onDelete()
     setIsOpen(false)
   }
 
@@ -26,12 +27,12 @@ export const DeleteExpenseDialog = ({ id, children }: Props) => {
       <PopoverTrigger render={children} />
       <PopoverContent align="end">
         <PopoverHeader>
-          Are you sure you wish to delete this expense? This action cannot be
-          undone.
+          Are you sure you wish to delete this{label ? ` ${label}` : ""}? This
+          action cannot be undone.
         </PopoverHeader>
         <Button variant="destructive" onClick={handleDelete}>
           <Trash2 />
-          <span>Delete</span>
+          <span>Delete{label ? ` ${label}` : ""}</span>
         </Button>
       </PopoverContent>
     </Popover>

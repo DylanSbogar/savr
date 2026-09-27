@@ -1,7 +1,6 @@
+import { CompactButton } from "@/components/compact-button"
+import { DeletePopover } from "@/components/delete-popover"
 import { Header } from "@/components/layout"
-import { Button } from "@/components/ui"
-import { DeleteExpenseDialog } from "@/features/expenses"
-import { useIsMobile } from "@/hooks"
 
 import { createFileRoute } from "@tanstack/react-router"
 import { Trash2 } from "lucide-react"
@@ -12,16 +11,19 @@ export const Route = createFileRoute("/__app/expenses/$expenseId/")({
 })
 
 function RouteComponent() {
-  const isMobile = useIsMobile()
   return (
     <div className="flex flex-col gap-2">
       <Header>
-        <DeleteExpenseDialog id="1">
-          <Button variant="destructive" size={isMobile ? "icon" : "default"}>
-            <Trash2 />
-            <span className="hidden md:inline">Delete</span>
-          </Button>
-        </DeleteExpenseDialog>
+        <DeletePopover
+          label="expense"
+          onDelete={() => console.log(`Deleting expense...`)}
+        >
+          <CompactButton
+            variant="destructive"
+            icon={Trash2}
+            label="Delete expense"
+          />
+        </DeletePopover>
       </Header>
     </div>
   )

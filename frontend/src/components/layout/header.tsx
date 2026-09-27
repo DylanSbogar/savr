@@ -31,16 +31,23 @@ export const Header = ({ children }: Props) => {
         <Separator orientation="vertical" />
         <Breadcrumb>
           <BreadcrumbList>
-            {crumbs.map((item, index) => (
-              <Fragment key={index}>
-                <BreadcrumbItem>
-                  <Link to={item.href} className="font-mono">
-                    {item.label}
-                  </Link>
-                </BreadcrumbItem>
-                {index < crumbs.length - 1 && <BreadcrumbSeparator />}
-              </Fragment>
-            ))}
+            {crumbs.map((item, index) => {
+              const isLast = index === crumbs.length - 1
+              return (
+                <Fragment key={index}>
+                  <BreadcrumbItem
+                    className={isLast ? undefined : "hidden lg:flex"}
+                  >
+                    <Link to={item.href} className="font-mono">
+                      {item.label}
+                    </Link>
+                  </BreadcrumbItem>
+                  {!isLast && (
+                    <BreadcrumbSeparator className="hidden lg:flex" />
+                  )}
+                </Fragment>
+              )
+            })}
           </BreadcrumbList>
         </Breadcrumb>
       </div>

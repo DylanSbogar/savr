@@ -19,10 +19,12 @@ import {
 import { DollarSign } from "lucide-react"
 
 interface Props {
+  categoryId?: string
   children: React.ReactElement
 }
 
-export const CreateExpenseDialog = ({ children }: Props) => {
+export const CreateExpenseDialog = ({ categoryId, children }: Props) => {
+  console.log(`Pre-selecting category with id: ${categoryId}...`)
   return (
     <Dialog>
       <DialogTrigger render={children} />
