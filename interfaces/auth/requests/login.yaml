@@ -1,0 +1,41 @@
+post:
+  summary: Attempt to sign in
+  operationId: login
+
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          required: [emailOrUsername, password]
+          properties:
+            emailOrUsername:
+              type: string
+              example: johndoe@mail.com
+            password:
+              type: string
+              format: password
+              writeOnly: true
+
+  responses:
+    "200":
+      description: Login successful.
+      content:
+        application/json:
+          schema:
+            type: object
+            required: [access_token, token_type, expires_in]
+            properties:
+              access_token:
+                type: string
+              token_type:
+                type: string
+                enum: [Bearer]
+                expires_in:
+                  type: integer
+                  description: Seconds until the token expires.
+                  example: 3600
+              onboarded:
+                type: boolean
+                description: False unless the user has completed their onboarding. Access to the application is blocked until this is true.

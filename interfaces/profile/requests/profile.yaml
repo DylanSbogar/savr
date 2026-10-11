@@ -1,0 +1,15 @@
+get:
+  summary: Get profile
+  operationId: getProfile
+
+put:
+  summary: Profile onboarding
+  operationId: onboardProfile
+
+patch:
+  summary: Update profile
+  operationId: updateProfile
+
+delete:
+  summary: Delete profile
+  operationId: deleteProfile

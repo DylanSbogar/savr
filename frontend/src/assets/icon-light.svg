@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="12 60 384 384" fill="none">
+  <g>
+    <path d="M 132 156 A 24 24 0 0 0 156 180 A 24 24 0 0 0 132 204 A 24 24 0 0 0 108 180 A 24 24 0 0 0 132 156 Z" fill="#fff"/>
+    <path d="M 132 204 A 24 24 0 0 0 156 228 A 24 24 0 0 0 132 252 A 24 24 0 0 0 108 228 A 24 24 0 0 0 132 204 Z" fill="#fff"/>
+    <path d="M 276 252 A 24 24 0 0 0 300 276 A 24 24 0 0 0 276 300 A 24 24 0 0 0 252 276 A 24 24 0 0 0 276 252 Z" fill="#fff"/>
+    <path d="M 276 300 A 24 24 0 0 0 300 324 A 24 24 0 0 0 276 348 A 24 24 0 0 0 252 324 A 24 24 0 0 0 276 300 Z" fill="#fff"/>
+    <rect x="84" y="180" width="48" height="48" fill="#fff"/>
+    <rect x="132" y="132" width="192" height="48" fill="#fff"/>
+    <rect x="132" y="228" width="144" height="48" fill="#fff"/>
+    <rect x="276" y="276" width="48" height="48" fill="#fff"/>
+    <rect x="84" y="324" width="192" height="48" fill="#fff"/>
+    <rect x="180" y="372" width="48" height="48" fill="#fff"/>
+    <rect x="180" y="84" width="48" height="48" fill="#fff"/>
+    <rect x="180" y="84" width="48" height="96" fill="#fff"/>
+    <rect x="180" y="324" width="48" height="96" fill="#fff"/>
+  </g>
+</svg>
