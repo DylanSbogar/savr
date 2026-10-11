@@ -10,7 +10,7 @@ function RouteComponent() {
   return (
     <SidebarProvider>
       <Sidebar />
-      <SidebarInset>
+      <SidebarInset className="bg-accent/75">
         <Outlet />
       </SidebarInset>
     </SidebarProvider>

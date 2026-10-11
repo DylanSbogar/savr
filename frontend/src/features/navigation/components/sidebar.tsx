@@ -58,7 +58,9 @@ export const Sidebar = () => {
                     <SidebarMenuButton
                       tooltip={item.title}
                       onClick={() => navigate({ to: item.href })}
-                      isActive={!!matchRoute({ to: item.href, fuzzy: true })}
+                      isActive={
+                        !!matchRoute({ to: item.href, fuzzy: !item.exact })
+                      }
                     >
                       <item.icon />
                       <span>{item.title}</span>

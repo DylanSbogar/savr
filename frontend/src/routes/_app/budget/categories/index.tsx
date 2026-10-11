@@ -1,9 +1,14 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { PageHeader } from "@/components/layout"
+import { createFileRoute } from "@tanstack/react-router"
 
-export const Route = createFileRoute('/_app/budget/categories/')({
+export const Route = createFileRoute("/_app/budget/categories/")({
   component: RouteComponent,
 })
 
 function RouteComponent() {
-  return <div>Hello "/_app/budget/categories/"!</div>
+  return (
+    <div className="col">
+      <PageHeader>Actions</PageHeader>
+    </div>
+  )
 }

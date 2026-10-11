@@ -14,9 +14,12 @@ import {
 } from "@/components/ui"
 import { MagnifyingGlassIcon } from "@phosphor-icons/react"
 import { useState } from "react"
+import { useHotkey } from "@tanstack/react-hotkeys"
 
 export const SearchDialog = () => {
   const [open, setOpen] = useState(false)
+
+  useHotkey("Mod+K", () => setOpen((prev) => !prev))
 
   return (
     <>

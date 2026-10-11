@@ -1,9 +1,15 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { PageHeader } from "@/components/layout"
+import { createFileRoute } from "@tanstack/react-router"
 
-export const Route = createFileRoute('/_app/budget/expenses/$expenseId/')({
+export const Route = createFileRoute("/_app/budget/expenses/$expenseId/")({
   component: RouteComponent,
+  loader: () => ({ crumb: "Test Expense" }),
 })
 
 function RouteComponent() {
-  return <div>Hello "/_app/budget/expenses/$expenseId/"!</div>
+  return (
+    <div className="col">
+      <PageHeader>Actions</PageHeader>
+    </div>
+  )
 }
