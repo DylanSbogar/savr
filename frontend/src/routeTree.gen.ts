@@ -16,9 +16,11 @@ import { Route as AppBudgetIndexRouteImport } from './routes/_app/budget/index'
 import { Route as AppBudgetCategoriesRouteImport } from './routes/_app/budget/categories'
 import { Route as AppBudgetExpensesRouteImport } from './routes/_app/budget/expenses'
 import { Route as AppHomeIndexRouteImport } from './routes/_app/home/index'
+import { Route as AppProfileIndexRouteImport } from './routes/_app/profile/index'
 import { Route as AppSpendingIndexRouteImport } from './routes/_app/spending/index'
 import { Route as AppBudgetCategoriesIndexRouteImport } from './routes/_app/budget/categories/index'
 import { Route as AppBudgetExpensesIndexRouteImport } from './routes/_app/budget/expenses/index'
+import { Route as AppSpendingTransactionIdIndexRouteImport } from './routes/_app/spending/$transactionId/index'
 import { Route as AppBudgetCategoriesCategoryIdIndexRouteImport } from './routes/_app/budget/categories/$categoryId/index'
 import { Route as AppBudgetExpensesExpenseIdIndexRouteImport } from './routes/_app/budget/expenses/$expenseId/index'
 
@@ -56,6 +58,11 @@ const AppHomeIndexRoute = AppHomeIndexRouteImport.update({
   path: '/home/',
   getParentRoute: () => AppRoute,
 } as any)
+const AppProfileIndexRoute = AppProfileIndexRouteImport.update({
+  id: '/profile/',
+  path: '/profile/',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppSpendingIndexRoute = AppSpendingIndexRouteImport.update({
   id: '/spending/',
   path: '/spending/',
@@ -72,6 +79,12 @@ const AppBudgetExpensesIndexRoute = AppBudgetExpensesIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AppBudgetExpensesRoute,
 } as any)
+const AppSpendingTransactionIdIndexRoute =
+  AppSpendingTransactionIdIndexRouteImport.update({
+    id: '/spending/$transactionId/',
+    path: '/spending/$transactionId/',
+    getParentRoute: () => AppRoute,
+  } as any)
 const AppBudgetCategoriesCategoryIdIndexRoute =
   AppBudgetCategoriesCategoryIdIndexRouteImport.update({
     id: '/$categoryId/',
@@ -92,9 +105,11 @@ export interface FileRoutesByFullPath {
   '/budget/expenses': typeof AppBudgetExpensesRouteWithChildren
   '/budget/': typeof AppBudgetIndexRoute
   '/home/': typeof AppHomeIndexRoute
+  '/profile/': typeof AppProfileIndexRoute
   '/spending/': typeof AppSpendingIndexRoute
   '/budget/categories/': typeof AppBudgetCategoriesIndexRoute
   '/budget/expenses/': typeof AppBudgetExpensesIndexRoute
+  '/spending/$transactionId/': typeof AppSpendingTransactionIdIndexRoute
   '/budget/categories/$categoryId/': typeof AppBudgetCategoriesCategoryIdIndexRoute
   '/budget/expenses/$expenseId/': typeof AppBudgetExpensesExpenseIdIndexRoute
 }
@@ -102,9 +117,11 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/budget': typeof AppBudgetIndexRoute
   '/home': typeof AppHomeIndexRoute
+  '/profile': typeof AppProfileIndexRoute
   '/spending': typeof AppSpendingIndexRoute
   '/budget/categories': typeof AppBudgetCategoriesIndexRoute
   '/budget/expenses': typeof AppBudgetExpensesIndexRoute
+  '/spending/$transactionId': typeof AppSpendingTransactionIdIndexRoute
   '/budget/categories/$categoryId': typeof AppBudgetCategoriesCategoryIdIndexRoute
   '/budget/expenses/$expenseId': typeof AppBudgetExpensesExpenseIdIndexRoute
 }
@@ -117,9 +134,11 @@ export interface FileRoutesById {
   '/_app/budget/expenses': typeof AppBudgetExpensesRouteWithChildren
   '/_app/budget/': typeof AppBudgetIndexRoute
   '/_app/home/': typeof AppHomeIndexRoute
+  '/_app/profile/': typeof AppProfileIndexRoute
   '/_app/spending/': typeof AppSpendingIndexRoute
   '/_app/budget/categories/': typeof AppBudgetCategoriesIndexRoute
   '/_app/budget/expenses/': typeof AppBudgetExpensesIndexRoute
+  '/_app/spending/$transactionId/': typeof AppSpendingTransactionIdIndexRoute
   '/_app/budget/categories/$categoryId/': typeof AppBudgetCategoriesCategoryIdIndexRoute
   '/_app/budget/expenses/$expenseId/': typeof AppBudgetExpensesExpenseIdIndexRoute
 }
@@ -132,9 +151,11 @@ export interface FileRouteTypes {
     | '/budget/expenses'
     | '/budget/'
     | '/home/'
+    | '/profile/'
     | '/spending/'
     | '/budget/categories/'
     | '/budget/expenses/'
+    | '/spending/$transactionId/'
     | '/budget/categories/$categoryId/'
     | '/budget/expenses/$expenseId/'
   fileRoutesByTo: FileRoutesByTo
@@ -142,9 +163,11 @@ export interface FileRouteTypes {
     | '/'
     | '/budget'
     | '/home'
+    | '/profile'
     | '/spending'
     | '/budget/categories'
     | '/budget/expenses'
+    | '/spending/$transactionId'
     | '/budget/categories/$categoryId'
     | '/budget/expenses/$expenseId'
   id:
@@ -156,9 +179,11 @@ export interface FileRouteTypes {
     | '/_app/budget/expenses'
     | '/_app/budget/'
     | '/_app/home/'
+    | '/_app/profile/'
     | '/_app/spending/'
     | '/_app/budget/categories/'
     | '/_app/budget/expenses/'
+    | '/_app/spending/$transactionId/'
     | '/_app/budget/categories/$categoryId/'
     | '/_app/budget/expenses/$expenseId/'
   fileRoutesById: FileRoutesById
@@ -219,6 +244,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppHomeIndexRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/profile/': {
+      id: '/_app/profile/'
+      path: '/profile'
+      fullPath: '/profile/'
+      preLoaderRoute: typeof AppProfileIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/spending/': {
       id: '/_app/spending/'
       path: '/spending'
@@ -239,6 +271,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/budget/expenses/'
       preLoaderRoute: typeof AppBudgetExpensesIndexRouteImport
       parentRoute: typeof AppBudgetExpensesRoute
+    }
+    '/_app/spending/$transactionId/': {
+      id: '/_app/spending/$transactionId/'
+      path: '/spending/$transactionId'
+      fullPath: '/spending/$transactionId/'
+      preLoaderRoute: typeof AppSpendingTransactionIdIndexRouteImport
+      parentRoute: typeof AppRoute
     }
     '/_app/budget/categories/$categoryId/': {
       id: '/_app/budget/categories/$categoryId/'
@@ -303,13 +342,17 @@ const AppBudgetRouteWithChildren = AppBudgetRoute._addFileChildren(
 interface AppRouteChildren {
   AppBudgetRoute: typeof AppBudgetRouteWithChildren
   AppHomeIndexRoute: typeof AppHomeIndexRoute
+  AppProfileIndexRoute: typeof AppProfileIndexRoute
   AppSpendingIndexRoute: typeof AppSpendingIndexRoute
+  AppSpendingTransactionIdIndexRoute: typeof AppSpendingTransactionIdIndexRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
   AppBudgetRoute: AppBudgetRouteWithChildren,
   AppHomeIndexRoute: AppHomeIndexRoute,
+  AppProfileIndexRoute: AppProfileIndexRoute,
   AppSpendingIndexRoute: AppSpendingIndexRoute,
+  AppSpendingTransactionIdIndexRoute: AppSpendingTransactionIdIndexRoute,
 }
 
 const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)

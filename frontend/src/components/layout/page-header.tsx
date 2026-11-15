@@ -31,7 +31,7 @@ export const PageHeader = ({ tooltip, additionalInfo, children }: Props) => {
     }))
 
   return (
-    <div className="sticky top-0 z-10 flex h-12 items-stretch justify-between gap-2 border-b bg-background px-2 md:items-center md:px-4">
+    <div className="sticky top-0 z-10 flex h-12 items-stretch justify-between gap-2 px-2 md:items-center md:px-4">
       {/* Left-aligned content */}
       <div className="flex items-center gap-2">
         {isMobile && (
