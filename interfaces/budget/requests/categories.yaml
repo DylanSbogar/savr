@@ -1,0 +1,7 @@
+get:
+  description: List all categories
+  operationId: listCategories
+
+post:
+  description: Create a new category
+  operationId: createCategory

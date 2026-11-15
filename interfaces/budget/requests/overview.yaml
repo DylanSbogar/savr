@@ -1,0 +1,3 @@
+get:
+  description: Get budgetting dashboard data
+  operationId: getOverview

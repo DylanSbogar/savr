@@ -1,0 +1,11 @@
+get:
+  description: Retrieve a category
+  operationId: getCategory
+
+patch:
+  description: Update a category
+  operationid: updateCategory
+
+delete:
+  description: Delete a category and any expenses associated with it
+  operationId: deleteCategory

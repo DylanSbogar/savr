@@ -1,0 +1,7 @@
+get:
+  description: List all transactions
+  operationId: listTransactions
+
+# post:
+#   description: Create a new transaction
+#   operationId: createTransaction

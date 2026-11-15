@@ -1,0 +1,50 @@
+get:
+  description: Retrieve a transaction
+  operationId: getTransaction
+
+  parameters:
+    - name: transactionId
+      description: The unique identifier of the transaction.
+      in: path
+      schema:
+        type: string
+        format: uuid
+      required: true
+
+  responses:
+    "200":
+      description: The details of the requested transaction.
+      content:
+        application/json:
+          schema:
+            $ref: "../schemas/transaction-detail.yaml"
+
+# patch:
+#   description: Update a transaction
+#   operationid: updateTransaction
+#
+#   parameters:
+#     - name: transactionId
+#       description: The unique identifier of the transaction.
+#       in: path
+#       schema:
+#         type: string
+#         format: uuid
+#       required: true
+#
+delete:
+  description: Delete a transaction
+  operationId: deleteTransaction
+
+  parameters:
+    - name: transactionId
+      description: The unique identifier of the transaction.
+      in: path
+      schema:
+        type: string
+        format: uuid
+      required: true
+
+  responses:
+    "204":
+      description: The transaction has been successfully deleted.

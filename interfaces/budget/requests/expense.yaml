@@ -1,0 +1,11 @@
+get:
+  description: Get an expense
+  operationId: getExpense
+
+patch:
+  description: Update an expense
+  operationId: updateExpense
+
+delete:
+  description: Delete an expense
+  operationId: deleteExpense

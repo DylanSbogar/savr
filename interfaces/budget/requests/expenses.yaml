@@ -1,0 +1,7 @@
+get:
+  description: List all expenses of a category
+  operationId: getExpenses
+
+post:
+  description: Create a new expense under a category
+  operationId: createExpense
