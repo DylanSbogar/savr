@@ -5,7 +5,6 @@ import {
 	UserIcon,
 } from "@phosphor-icons/react";
 import { useMatchRoute, useNavigate } from "@tanstack/react-router";
-import icon from "@/assets/icon-light.svg";
 import { DitherAvatar } from "@/components/dither-kit";
 import {
 	Sidebar as BaseSidebar,
@@ -30,7 +29,6 @@ import {
 } from "@/components/ui";
 import { useIsMobile } from "@/hooks";
 import { navGroups } from "../utils";
-import { SearchDialog } from "./search-dialog";
 import { SettingsDialog } from "./settings-dialog";
 
 export const Sidebar = () => {
@@ -49,7 +47,10 @@ export const Sidebar = () => {
 			<SidebarHeader className="border-b bg-background">
 				<SidebarMenu>
 					<SidebarMenuItem className="flex items-center justify-between">
-						<SidebarMenuButton>
+						<SidebarMenuButton
+							onClick={() => navigate({ to: "/home" })}
+							className="w-fit"
+						>
 							<CurrencyDollarIcon className="size-5" />
 							<span className="text-base font-semibold">SAVR</span>
 						</SidebarMenuButton>
@@ -67,7 +68,7 @@ export const Sidebar = () => {
 				{navGroups.map((group) => (
 					<SidebarGroup key={group.label}>
 						<SidebarGroupContent>
-							{group.label && (
+							{group.label && open && (
 								<SidebarGroupLabel>{group.label}</SidebarGroupLabel>
 							)}
 							<SidebarMenu>
@@ -121,7 +122,7 @@ export const Sidebar = () => {
 									<SidebarMenuButton
 										size="lg"
 										className="rounded-none data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
-										tooltip="dylansbogar"
+										tooltip={`dylansbogar\ndev.dylansbogar@icloud.com`}
 									>
 										<DitherAvatar
 											name="dylansbogar"
