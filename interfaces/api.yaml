@@ -36,8 +36,8 @@ paths:
   #     $ref: "./budget/requests/expense.yaml"
   #
   # Spending tracker
-  # /transactions:
-  #     $ref: "./transactions/requests/transactions.yaml"
+  /transactions:
+    $ref: "./transactions/requests/transactions.yaml"
 
   /transactions/{transactionId}:
     $ref: "./transactions/requests/transaction.yaml"

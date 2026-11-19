@@ -1,5 +1,5 @@
 import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import {
 	deleteTransactionMutation,
 	getTransactionOptions,
@@ -31,6 +31,8 @@ function RouteComponent() {
 		getTransactionOptions({ path: { transactionId } }),
 	);
 
+	const navigate = useNavigate();
+
 	const deleteTransaction = useMutation({
 		...deleteTransactionMutation(),
 		onSuccess: () => {
@@ -38,6 +40,7 @@ function RouteComponent() {
 				type: "success",
 				description: "Transaction successfully deleted",
 			});
+			navigate({ to: "/spending" });
 		},
 		onError: () =>
 			toast.add({

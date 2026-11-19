@@ -4,37 +4,38 @@ required: [id, name, dateTime, amount]
 
 properties:
   id:
-    description: The unique identifier of the transaction.
     type: string
     format: uuid
     readOnly: true
+    description: The unique identifier of the transaction.
 
   name:
-    description: The displayable name of the transaction.
     type: string
+    description: The displayable name of the transaction.
     maxLength: 255
 
   dateTime:
-    description: The date and time the transaction took place.
     type: string
+    description: The date and time the transaction took place.
     format: date-time
 
   amount:
-    description: The cost of the transaction, as a decimal string (e.g. "19.99").
-    type: string
+    type: number
+    format: double
+    description: The cost of the transaction.
     example: "19.99"
 
   vendor:
-    description: The vendor the transaction took place at.
     type: string
+    description: The vendor the transaction took place at.
     maxLength: 255
 
   location:
-    description: Latitude and longitude in decimal degrees as "lat,lng" (e.g. "-37.8136,144.9631"). Used to populate a map pin.
     type: string
+    description: Latitude and longitude in decimal degrees as "lat,lng" (e.g. "-37.8136,144.9631"). Used to populate a map pin.
     example: "-37.8136,144.9631"
 
   notes:
-    description: Any additional notes about the transaction.
     type: string
+    description: Any additional notes about the transaction.
     maxLength: 1000

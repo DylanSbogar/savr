@@ -1,7 +1,24 @@
-get:
-  description: List all transactions
-  operationId: listTransactions
+# get:
+#   description: List all transactions
+#   operationId: listTransactions
 
-# post:
-#   description: Create a new transaction
-#   operationId: createTransaction
+post:
+  description: Create a new transaction
+  operationId: createTransaction
+
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "../schemas/transaction-create-request.yaml"
+
+  responses:
+    "201":
+      description: Transaction created. Returns the ID of the new transaction.
+      content:
+        application/json:
+          schema:
+            type: string
+            format: uuid
+            example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
