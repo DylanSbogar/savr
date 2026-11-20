@@ -1,8 +1,11 @@
 import { HandCoinsIcon } from "@phosphor-icons/react";
 import { PlusIcon } from "@phosphor-icons/react/dist/ssr";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { createTransactionMutation } from "@/api/@tanstack/react-query.gen";
+import {
+	createTransactionMutation,
+	getTransactionsOptions,
+} from "@/api/@tanstack/react-query.gen";
 import { PageHeader } from "@/components/layout";
 import { Button, toast } from "@/components/ui";
 
@@ -12,6 +15,8 @@ export const Route = createFileRoute("/_app/spending/")({
 });
 
 function RouteComponent() {
+	const { data: transactions } = useQuery(getTransactionsOptions());
+
 	const navigate = useNavigate();
 
 	const createTransaction = useMutation({
@@ -43,12 +48,17 @@ function RouteComponent() {
 					<span>New transaction</span>
 				</Button>
 			</PageHeader>
-			<Link
-				to="/spending/$transactionId"
-				params={{ transactionId: crypto.randomUUID() }}
-			>
-				Test example
-			</Link>
+			<div className="flex flex-col gap-2">
+				{transactions?.map(({ id, name, amount }) => (
+					<Link
+						key={id}
+						to="/spending/$transactionId"
+						params={{ transactionId: id }}
+					>
+						{name} - {amount}
+					</Link>
+				))}
+			</div>
 		</div>
 	);
 }

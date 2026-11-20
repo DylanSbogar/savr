@@ -1,6 +1,16 @@
-# get:
-#   description: List all transactions
-#   operationId: listTransactions
+get:
+  description: List all transactions
+  operationId: getTransactions
+
+  responses:
+    "200":
+      description: Retrieved all transactions.
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: "../schemas/transaction-summary.yaml"
 
 post:
   description: Create a new transaction

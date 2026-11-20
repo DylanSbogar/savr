@@ -3,31 +3,26 @@ package dylansbogar.savr.transactions;
 import dylansbogar.savr.api.TransactionsApi;
 import dylansbogar.savr.api.model.TransactionCreateRequest;
 import dylansbogar.savr.api.model.TransactionDetail;
+import dylansbogar.savr.api.model.TransactionSummary;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.time.OffsetDateTime;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 @RestController
 public class TransactionsController implements TransactionsApi {
     private final TransactionsRepository transactionsRepository;
+    private final TransactionsMapper transactionsMapper;
 
-    public TransactionsController(TransactionsRepository transactionsRepository) {
+    public TransactionsController(TransactionsRepository transactionsRepository, TransactionsMapper transactionsMapper) {
         this.transactionsRepository = transactionsRepository;
+        this.transactionsMapper = transactionsMapper;
     }
-
-    // Create
-    //
-    // Read
-    //
-    // Update
-    //
-    // Delete
 
     @Override
     public ResponseEntity<UUID> createTransaction(TransactionCreateRequest request) {
@@ -48,6 +43,13 @@ public class TransactionsController implements TransactionsApi {
     }
 
     @Override
+    public ResponseEntity<List<TransactionSummary>> getTransactions() {
+        List<Transaction> transactions = transactionsRepository.findAll();
+
+        return ResponseEntity.ok(transactionsMapper.toTransactionSummaries(transactions));
+    }
+
+    @Override
     public ResponseEntity<TransactionDetail> getTransaction(UUID transactionId) {
         Optional<Transaction> transaction = transactionsRepository.findById(transactionId);
 
@@ -55,15 +57,8 @@ public class TransactionsController implements TransactionsApi {
             return ResponseEntity.notFound().build();
         }
 
-
-        TransactionDetail dummyTransaction = TransactionDetail.builder()
-            .id(transactionId)
-            .name("Example transaction")
-            .dateTime(OffsetDateTime.now())
-            .amount(100.10)
-        .build();
-        System.out.println("Fetching...");
-        return ResponseEntity.ok(dummyTransaction);
+        TransactionDetail transactionDetail = transactionsMapper.toTransactionDetail(transaction.get());
+        return ResponseEntity.ok(transactionDetail);
     }
 
     @Override

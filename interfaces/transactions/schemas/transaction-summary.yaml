@@ -1,0 +1,26 @@
+type: object
+description: A singular summarised transaction item.
+required: [id, name, dateTime, amount]
+
+properties:
+  id:
+    type: string
+    format: uuid
+    readOnly: true
+    description: The unique identifier of the transaction.
+
+  name:
+    type: string
+    description: The displayable name of the transaction.
+    maxLength: 255
+
+  dateTime:
+    type: string
+    description: The date and time the transaction took place.
+    format: date-time
+
+  amount:
+    type: number
+    format: double
+    description: The cost of the transaction.
+    example: "19.99"
