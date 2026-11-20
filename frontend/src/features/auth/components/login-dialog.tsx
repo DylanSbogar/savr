@@ -19,8 +19,9 @@ import {
 	FieldLabel,
 	FieldSeparator,
 	Input,
+	toast,
 } from "@/components/ui";
-import { loginSchema } from "../utils";
+import { loginSchema, setToken } from "../utils";
 
 interface Props {
 	children: React.ReactElement;
@@ -30,12 +31,12 @@ export const LoginDialog = ({ children }: Props) => {
 	const navigate = useNavigate();
 
 	const form = useForm({
-		defaultValues: { emailOrUsername: "", password: "" },
+		defaultValues: { email: "", password: "" },
 		validators: { onSubmit: loginSchema, onChange: loginSchema },
 		onSubmit: async ({ value }) => {
 			login.mutate({
 				body: {
-					emailOrUsername: value.emailOrUsername,
+					email: value.email,
 					password: value.password,
 				},
 			});
@@ -44,13 +45,15 @@ export const LoginDialog = ({ children }: Props) => {
 
 	const login = useMutation({
 		...loginMutation(),
-		onSuccess: () => {
-			console.log("Success!");
+		onSuccess: (data) => {
+			setToken(data.access_token);
 			navigate({ to: "/home" });
 		},
 		onError: () => {
-			console.log("Error.");
-			if (import.meta.env.DEV) navigate({ to: "/home" });
+			toast.add({
+				type: "success",
+				description: "There was an error whilst logging in",
+			});
 		},
 	});
 
@@ -72,15 +75,13 @@ export const LoginDialog = ({ children }: Props) => {
 					</DialogHeader>
 					<FieldGroup className="px-4 py-2">
 						<form.Field
-							name="emailOrUsername"
+							name="email"
 							children={(field) => {
 								const isInvalid =
 									field.state.meta.isTouched && !field.state.meta.isValid;
 								return (
 									<Field data-invalid={isInvalid}>
-										<FieldLabel htmlFor="emailOrUsername">
-											Email or username
-										</FieldLabel>
+										<FieldLabel htmlFor="email">Email or username</FieldLabel>
 										<Input
 											id={field.name}
 											name={field.name}
@@ -88,7 +89,7 @@ export const LoginDialog = ({ children }: Props) => {
 											onBlur={field.handleBlur}
 											onChange={(e) => field.handleChange(e.target.value)}
 											aria-invalid={isInvalid}
-											placeholder="johndoe"
+											placeholder="johndoe@mail.com"
 											autoComplete="off"
 											disabled={login.isPending}
 										/>

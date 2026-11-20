@@ -8,9 +8,9 @@ post:
       application/json:
         schema:
           type: object
-          required: [emailOrUsername, password]
+          required: [email, password]
           properties:
-            emailOrUsername:
+            email:
               type: string
               example: johndoe@mail.com
             password:

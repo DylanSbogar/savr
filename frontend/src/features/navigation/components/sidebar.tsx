@@ -27,11 +27,13 @@ import {
 	SidebarTrigger,
 	useSidebar,
 } from "@/components/ui";
+import { useCurrentUser } from "@/features/auth/utils";
 import { useIsMobile } from "@/hooks";
 import { navGroups } from "../utils";
 import { SettingsDialog } from "./settings-dialog";
 
 export const Sidebar = () => {
+	const user = useCurrentUser();
 	const navigate = useNavigate();
 	const matchRoute = useMatchRoute();
 
@@ -130,9 +132,9 @@ export const Sidebar = () => {
 											className="shrink-0"
 										/>
 										<div className="grid flex-1 text-left text-sm leading-tight">
-											<span className="truncate font-medium">dylansbogar</span>
+											<span className="truncate font-medium">N/A</span>
 											<span className="truncate text-xs text-muted-foreground">
-												dev.dylansbogar@icloud.com
+												{user?.email}
 											</span>
 										</div>
 									</SidebarMenuButton>

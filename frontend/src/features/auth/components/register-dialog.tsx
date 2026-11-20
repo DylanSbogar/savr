@@ -19,6 +19,7 @@ import {
 	FieldLabel,
 	FieldSeparator,
 	Input,
+	toast,
 } from "@/components/ui";
 import { registerSchema } from "../utils";
 
@@ -31,7 +32,7 @@ export const RegisterDialog = ({ children }: Props) => {
 
 	const form = useForm({
 		defaultValues: {
-			emailOrUsername: "",
+			email: "",
 			password: "",
 			passwordConfirmation: "",
 		},
@@ -39,7 +40,7 @@ export const RegisterDialog = ({ children }: Props) => {
 		onSubmit: async ({ value }) => {
 			register.mutate({
 				body: {
-					emailOrUsername: value.emailOrUsername,
+					email: value.email,
 					password: value.password,
 				},
 			});
@@ -53,8 +54,7 @@ export const RegisterDialog = ({ children }: Props) => {
 			navigate({ to: "/home" });
 		},
 		onError: () => {
-			console.log("Error.");
-			if (import.meta.env.DEV) navigate({ to: "/home" });
+			toast.add({ type: "error", description: "Uh oh" });
 		},
 	});
 
@@ -76,15 +76,13 @@ export const RegisterDialog = ({ children }: Props) => {
 					</DialogHeader>
 					<FieldGroup className="px-4 py-2">
 						<form.Field
-							name="emailOrUsername"
+							name="email"
 							children={(field) => {
 								const isInvalid =
 									field.state.meta.isTouched && !field.state.meta.isValid;
 								return (
 									<Field data-invalid={isInvalid}>
-										<FieldLabel htmlFor="emailOrUsername">
-											Email or username
-										</FieldLabel>
+										<FieldLabel htmlFor="email">Email or username</FieldLabel>
 										<Input
 											id={field.name}
 											name={field.name}
@@ -92,7 +90,7 @@ export const RegisterDialog = ({ children }: Props) => {
 											onBlur={field.handleBlur}
 											onChange={(e) => field.handleChange(e.target.value)}
 											aria-invalid={isInvalid}
-											placeholder="johndoe"
+											placeholder="johndoe@mail.com"
 											autoComplete="off"
 											disabled={register.isPending}
 										/>
