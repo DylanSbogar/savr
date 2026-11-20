@@ -47,7 +47,7 @@ export const LoginDialog = ({ children }: Props) => {
 		...loginMutation(),
 		onSuccess: (data) => {
 			setToken(data.access_token);
-			navigate({ to: "/home" });
+			if (data.onboarded) navigate({ to: "/home" });
 		},
 		onError: () => {
 			toast.add({
@@ -81,7 +81,7 @@ export const LoginDialog = ({ children }: Props) => {
 									field.state.meta.isTouched && !field.state.meta.isValid;
 								return (
 									<Field data-invalid={isInvalid}>
-										<FieldLabel htmlFor="email">Email or username</FieldLabel>
+										<FieldLabel htmlFor="email">Email address</FieldLabel>
 										<Input
 											id={field.name}
 											name={field.name}

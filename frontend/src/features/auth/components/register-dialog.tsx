@@ -21,7 +21,7 @@ import {
 	Input,
 	toast,
 } from "@/components/ui";
-import { registerSchema } from "../utils";
+import { registerSchema, setToken } from "../utils";
 
 interface Props {
 	children: React.ReactElement;
@@ -49,8 +49,9 @@ export const RegisterDialog = ({ children }: Props) => {
 
 	const register = useMutation({
 		...registerMutation(),
-		onSuccess: () => {
+		onSuccess: (data) => {
 			console.log("Success!");
+			setToken(data.access_token);
 			navigate({ to: "/home" });
 		},
 		onError: () => {
@@ -82,7 +83,7 @@ export const RegisterDialog = ({ children }: Props) => {
 									field.state.meta.isTouched && !field.state.meta.isValid;
 								return (
 									<Field data-invalid={isInvalid}>
-										<FieldLabel htmlFor="email">Email or username</FieldLabel>
+										<FieldLabel htmlFor="email">Email address</FieldLabel>
 										<Input
 											id={field.name}
 											name={field.name}
@@ -158,7 +159,7 @@ export const RegisterDialog = ({ children }: Props) => {
 							}}
 						/>
 
-						<FieldSeparator>or</FieldSeparator>
+						<FieldSeparator className="bg-popover">or</FieldSeparator>
 						<Button size="lg" disabled>
 							<GoogleLogoIcon />
 							<span>Continue with Google</span>
@@ -188,7 +189,7 @@ export const RegisterDialog = ({ children }: Props) => {
 									form="register-form"
 									disabled={register.isPending || !isValid || !isDirty}
 								>
-									Log in
+									Sign up
 								</Button>
 							)}
 						</form.Subscribe>
