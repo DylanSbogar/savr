@@ -3,6 +3,7 @@ package dylansbogar.savr.transactions;
 import dylansbogar.savr.api.TransactionsApi;
 import dylansbogar.savr.api.model.TransactionCreateRequest;
 import dylansbogar.savr.api.model.TransactionDetail;
+import dylansbogar.savr.api.model.TransactionStats;
 import dylansbogar.savr.api.model.TransactionSummary;
 
 import org.springframework.http.ResponseEntity;
@@ -10,67 +11,51 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.time.OffsetDateTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @RestController
 public class TransactionsController implements TransactionsApi {
-    private final TransactionsRepository transactionsRepository;
     private final TransactionsMapper transactionsMapper;
+    private final TransactionsService transactionsService;
 
-    public TransactionsController(TransactionsRepository transactionsRepository, TransactionsMapper transactionsMapper) {
-        this.transactionsRepository = transactionsRepository;
+    public TransactionsController(TransactionsMapper transactionsMapper, TransactionsService transactionsService) {
         this.transactionsMapper = transactionsMapper;
+        this.transactionsService = transactionsService;
     }
 
     @Override
     public ResponseEntity<UUID> createTransaction(TransactionCreateRequest request) {
-        Transaction transaction = Transaction.builder()
-            .name(request.getName())
-            .amount(request.getAmount())
-            .dateTime(request.getDateTime())
-            .build();
-
-        UUID test = transactionsRepository.save(transaction).getId();
-
+        UUID transactionId = transactionsService.createTransaction(transactionsMapper.toTransaction(request));
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
-                .buildAndExpand(test)
+                .buildAndExpand(transactionId)
                 .toUri();
 
-        return ResponseEntity.created(location).body(test);
+        return ResponseEntity.created(location).body(transactionId);
     }
 
     @Override
     public ResponseEntity<List<TransactionSummary>> getTransactions() {
-        List<Transaction> transactions = transactionsRepository.findAll();
-
+        List<Transaction> transactions = transactionsService.getTransactions();
         return ResponseEntity.ok(transactionsMapper.toTransactionSummaries(transactions));
     }
 
     @Override
     public ResponseEntity<TransactionDetail> getTransaction(UUID transactionId) {
-        Optional<Transaction> transaction = transactionsRepository.findById(transactionId);
-
-        if (transaction.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-
-        TransactionDetail transactionDetail = transactionsMapper.toTransactionDetail(transaction.get());
-        return ResponseEntity.ok(transactionDetail);
+        Transaction transaction = transactionsService.getTransaction(transactionId);
+        return ResponseEntity.ok(transactionsMapper.toTransactionDetail(transaction));
     }
 
     @Override
     public ResponseEntity<Void> deleteTransaction(UUID transactionId) {
-        Optional<Transaction> transaction = transactionsRepository.findById(transactionId);
-
-        if (transaction.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-
-        transactionsRepository.deleteById(transactionId);
-
+        transactionsService.deleteTransaction(transactionId);
         return ResponseEntity.noContent().build();
+    }
+
+    @Override
+    public ResponseEntity<TransactionStats> getTransactionStats(OffsetDateTime from, OffsetDateTime to) {
+        return null;
     }
 }

@@ -46,7 +46,7 @@ export const Sidebar = () => {
 
 	return (
 		<BaseSidebar collapsible="icon">
-			<SidebarHeader className="border-b bg-background">
+			<SidebarHeader className="border-b bg-background h-12">
 				<SidebarMenu>
 					<SidebarMenuItem className="flex items-center justify-between">
 						<SidebarMenuButton

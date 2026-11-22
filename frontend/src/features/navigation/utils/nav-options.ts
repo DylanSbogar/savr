@@ -22,6 +22,7 @@ interface NavGroup {
 
 export const navGroups: NavGroup[] = [
 	{
+		label: "",
 		items: [
 			{ title: "Home", href: "/home", icon: HouseIcon },
 			{ title: "Spending Tracker", href: "/spending", icon: HandCoinsIcon },

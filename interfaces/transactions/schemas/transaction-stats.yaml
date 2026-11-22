@@ -1,0 +1,11 @@
+type: object
+required: [count, total]
+
+properties:
+  count:
+    type: integer
+    format: int64
+  total:
+    type: number
+  topVendor:
+    $ref: "./transaction-vendor.yaml"

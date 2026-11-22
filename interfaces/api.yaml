@@ -39,5 +39,8 @@ paths:
   /transactions:
     $ref: "./transactions/requests/transactions.yaml"
 
+  /transactions/stats:
+    $ref: "./transactions/requests/transactions-stats.yaml"
+
   /transactions/{transactionId}:
     $ref: "./transactions/requests/transaction.yaml"

@@ -11,4 +11,5 @@ import org.springframework.stereotype.Repository;
 public interface TransactionsRepository extends JpaRepository<Transaction, UUID> {
     List<Transaction> findByUserId(UUID userId);
     Optional<Transaction> findByIdAndUserId(UUID id, UUID userId);
+    int deleteByIdAndUserId(UUID id, UUID userId);
 }
