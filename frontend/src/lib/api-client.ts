@@ -1,21 +1,20 @@
 import { client } from "@/api/client.gen";
-import { clearToken, getToken } from "@/features/auth/utils";
+import { expireSession, getToken } from "@/features/auth/utils";
+
+const isAuthCall = (url: string) =>
+	new URL(url, window.location.origin).pathname.includes("/auth/");
 
 client.interceptors.request.use((request) => {
 	const token = getToken();
-	const isAuthCall = new URL(
-		request.url,
-		window.location.origin,
-	).pathname.includes("/auth/");
-	if (token && !isAuthCall) {
+	if (token && !isAuthCall(request.url)) {
 		request.headers.set("Authorization", `Bearer ${token}`);
 	}
 	return request;
 });
 
 client.interceptors.response.use((response) => {
-	if (response.status === 401 && getToken()) {
-		clearToken();
+	if (response.status === 401 && !isAuthCall(response.url)) {
+		expireSession();
 	}
 	return response;
 });

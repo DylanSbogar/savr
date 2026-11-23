@@ -5,9 +5,9 @@ import { Sidebar } from "@/features/navigation";
 
 export const Route = createFileRoute("/_app")({
 	component: RouteComponent,
-	beforeLoad: () => {
+	beforeLoad: ({ location }) => {
 		if (!isAuthenticated()) {
-			throw redirect({ to: "/" });
+			throw redirect({ to: "/", search: { redirect: location.href } });
 		}
 	},
 });

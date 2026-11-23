@@ -1,10 +1,12 @@
 import { GoogleLogoIcon, KeyIcon } from "@phosphor-icons/react";
 import { useForm } from "@tanstack/react-form";
 import { useMutation } from "@tanstack/react-query";
-import { useNavigate } from "@tanstack/react-router";
+import { useNavigate, useRouter, useSearch } from "@tanstack/react-router";
 import { TextMorph } from "torph/react";
 import { loginMutation } from "@/api/@tanstack/react-query.gen";
 import {
+	Alert,
+	AlertDescription,
 	Button,
 	Dialog,
 	DialogClose,
@@ -21,14 +23,17 @@ import {
 	Input,
 	toast,
 } from "@/components/ui";
-import { loginSchema, setToken } from "../utils";
+import { loginSchema, setToken, useSessionExpired } from "../utils";
 
 interface Props {
 	children: React.ReactElement;
 }
 
 export const LoginDialog = ({ children }: Props) => {
+	const router = useRouter();
 	const navigate = useNavigate();
+	const sessionExpired = useSessionExpired();
+	const { redirect } = useSearch({ strict: false });
 
 	const form = useForm({
 		defaultValues: { email: "", password: "" },
@@ -47,7 +52,11 @@ export const LoginDialog = ({ children }: Props) => {
 		...loginMutation(),
 		onSuccess: (data) => {
 			setToken(data.access_token);
-			if (data.onboarded) navigate({ to: "/home" });
+			if (redirect?.startsWith("/") && !redirect.startsWith("//")) {
+				router.history.push(redirect);
+			} else {
+				navigate({ to: "/home" });
+			}
 		},
 		onError: () => {
 			toast.add({
@@ -73,6 +82,13 @@ export const LoginDialog = ({ children }: Props) => {
 							<TextMorph>Log in to SAVR</TextMorph>
 						</DialogTitle>
 					</DialogHeader>
+					{sessionExpired && (
+						<Alert>
+							<AlertDescription>
+								Your session expired. Please log in again.
+							</AlertDescription>
+						</Alert>
+					)}
 					<FieldGroup className="px-4 py-2">
 						<form.Field
 							name="email"

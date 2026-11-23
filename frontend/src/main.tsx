@@ -8,6 +8,7 @@ import { ThemeProvider } from "@/components/theme-provider.tsx";
 import { Toaster, TooltipProvider } from "./components/ui";
 import { routeTree } from "./routeTree.gen";
 import "./index.css";
+import { authStore } from "./features/auth/utils";
 
 const queryClient = new QueryClient();
 
@@ -15,6 +16,13 @@ const router = createRouter({
 	routeTree,
 	context: { queryClient },
 	defaultPreload: "intent",
+});
+
+authStore.subscribe((state) => {
+	if (state.token === null) {
+		queryClient.clear();
+		router.invalidate();
+	}
 });
 
 declare module "@tanstack/react-router" {

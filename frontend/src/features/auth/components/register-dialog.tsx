@@ -50,7 +50,6 @@ export const RegisterDialog = ({ children }: Props) => {
 	const register = useMutation({
 		...registerMutation(),
 		onSuccess: (data) => {
-			console.log("Success!");
 			setToken(data.access_token);
 			navigate({ to: "/home" });
 		},

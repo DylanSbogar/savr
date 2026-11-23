@@ -1,8 +1,10 @@
 package dylansbogar.savr.config;
 
+import java.time.Duration;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.oauth2.jose.jws.MacAlgorithm;
 import org.springframework.security.oauth2.jwt.JwsHeader;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
@@ -19,12 +21,15 @@ public class TokenService {
 
     private final JwtEncoder encoder;
 
+    @Value("${app.jwt.ttl}")
+    private Duration ttl;
+
     public String generate(User user) {
         Instant now = Instant.now();
         JwtClaimsSet claims = JwtClaimsSet.builder()
                 .issuer("savr")
                 .issuedAt(now)
-                .expiresAt(now.plus(1, ChronoUnit.HOURS))
+                .expiresAt(now.plus(ttl))
                 .subject(user.getId().toString())
                 .claim("email", user.getEmail())
                 .build();
